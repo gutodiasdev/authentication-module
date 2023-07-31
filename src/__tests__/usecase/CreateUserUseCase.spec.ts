@@ -1,27 +1,10 @@
 import { MockProxy, mock } from 'jest-mock-extended'
-import { CreateUserRepository } from '../../data/contracts'
-import { CreateUSer, CreateUser } from "../../domain/features"
-
-export class CreateUserUseCase implements CreateUSer {
-    constructor(private readonly userRepository: CreateUserRepository) { }
-
-    async execute(input: CreateUser.Input): Promise<CreateUser.Ouput> {
-        await this.userRepository.createUser({
-            email: input.email,
-            hashedPassword: input.password,
-            agreeWithPolicies: input.agreeWithPolicies,
-            permissions: input.permissions
-        })
-        return {
-            token: '',
-            refreshToken: '',
-            permissions: ['']
-        }
-    }
-}
+import { CreateUserUseCase } from '../../application/usecases'
+import { CheckUserByEmailRepository, CreateUserRepository } from '../../data/contracts'
+import { UserAlreadyExistsError } from '../../domain/error'
 
 describe('CreateUserUseCase', function () {
-    let userRepository: MockProxy<CreateUserRepository>
+    let userRepository: MockProxy<CreateUserRepository & CheckUserByEmailRepository>
     let sut: CreateUserUseCase
     const input = {
         email: 'any_email',
@@ -33,6 +16,7 @@ describe('CreateUserUseCase', function () {
     beforeEach(() => {
         userRepository = mock()
         sut = new CreateUserUseCase(userRepository)
+        userRepository.checkByEmail.mockResolvedValue(undefined)
     })
 
     test('it should return token, refreshToken and permissions when CreateUserUseCase is called', async function () {
@@ -51,5 +35,10 @@ describe('CreateUserUseCase', function () {
             agreeWithPolicies: true,
             permissions: ['any.permission']
         })
+    })
+
+    test('it should throw UserAlreadyExistsError if checkByEmail method return value', async function () {
+        userRepository.checkByEmail.mockResolvedValueOnce({ id: '' })
+        await expect(() => sut.execute(input)).rejects.toThrow(UserAlreadyExistsError)
     })
 })
