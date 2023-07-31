@@ -7,6 +7,7 @@ export namespace CreateUserRepository {
         email: string
         hashedPassword: string
         agreeWithPolicies: boolean
+        permissions?: string[]
     }
     export type Ouput = {
         id: string
