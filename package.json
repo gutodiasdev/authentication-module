@@ -21,6 +21,7 @@
     "test": "jest --runInBand --passWithNoTests",
     "test:staged": "yarn test --findRelatedTests",
     "test:coverage": "yarn test --coverage",
+    "test:watch": "yarn test --watch",
     "prepare": "husky install"
   }
 }
