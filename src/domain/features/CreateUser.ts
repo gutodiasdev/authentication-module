@@ -7,6 +7,7 @@ export namespace CreateUser {
         email: string
         password: string
         agreeWithPolicies: boolean
+        permissions?: string[]
     }
     export type Ouput = {
         token: string
