@@ -13,3 +13,16 @@ export namespace CreateUserRepository {
         id: string
     }
 }
+
+export interface CheckUserByEmailRepository {
+    checkByEmail(input: CheckUserByEmailRepository.Input): Promise<CheckUserByEmailRepository.Ouput>
+}
+
+export namespace CheckUserByEmailRepository {
+    export type Input = {
+        email: string
+    }
+    export type Ouput = {
+        id: string
+    } | undefined
+}
