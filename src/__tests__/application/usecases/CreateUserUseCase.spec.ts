@@ -1,7 +1,7 @@
 import { MockProxy, mock } from 'jest-mock-extended'
-import { CreateUserUseCase } from '../../application/usecases'
-import { CheckUserByEmailRepository, CreateUserRepository } from '../../data/contracts'
-import { CreateUserFailed, UserAlreadyExistsError } from '../../domain/error'
+import { CreateUserUseCase } from '../../../application/usecases'
+import { CheckUserByEmailRepository, CreateUserRepository } from '../../../data/contracts'
+import { CreateUserFailed, UserAlreadyExistsError } from '../../../domain/error'
 
 describe('CreateUserUseCase', function () {
     let userRepository: MockProxy<CreateUserRepository & CheckUserByEmailRepository>
