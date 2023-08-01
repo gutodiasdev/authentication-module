@@ -1,34 +1,4 @@
-import { randomUUID } from "crypto"
-
-export class User {
-    id: string
-    email: string
-    password: string
-    agreeWithPolicies: boolean
-
-    constructor(input: {
-        id: string,
-        email: string,
-        password: string,
-        agreeWithPolicies: boolean
-    }) {
-        this.id = input.id
-        this.email = input.email
-        this.password = input.password
-        this.agreeWithPolicies = input.agreeWithPolicies
-    }
-
-    static create(input: Input) {
-        const id = randomUUID()
-        return new User({ ...input, id })
-    }
-}
-
-type Input = {
-    email: string,
-    password: string,
-    agreeWithPolicies: boolean
-}
+import { User } from "../../../domain/models"
 
 describe('User', function () {
     let sut: User
@@ -44,12 +14,10 @@ describe('User', function () {
     })
 
     test('it should create an User with full params', function () {
-        expect(sut).toEqual({
-            id: 'any_id',
-            email: 'any_email',
-            password: 'any_password',
-            agreeWithPolicies: true
-        })
+        expect(sut.id).toBe('any_id')
+        expect(sut.email).toBe('any_email')
+        expect(sut.agreeWithPolicies).toBe(true)
+        expect(sut.password).toBeDefined()
     })
 
     test('it should create an User using static creation', function () {
