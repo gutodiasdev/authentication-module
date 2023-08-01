@@ -8,6 +8,7 @@
     "@swc/jest": "^0.2.27",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.5.3",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.4.5",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
@@ -19,7 +20,7 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
-    "test": "jest --runInBand --passWithNoTests",
+    "test": "jest --no-cache --runInBand --passWithNoTests",
     "test:staged": "yarn test --findRelatedTests",
     "test:coverage": "yarn test --coverage",
     "test:watch": "yarn test --watch",
@@ -28,6 +29,7 @@
   "dependencies": {
     "@types/uuid": "^9.0.2",
     "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.1",
     "uuid": "^9.0.0"
   }
 }
