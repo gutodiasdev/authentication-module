@@ -25,3 +25,18 @@ export namespace CheckUserByEmailRepository {
         id: string
     } | undefined
 }
+
+export interface FindUserByEmailRepository {
+    findByEmail(input: FindUserByEmailRepository.Input): Promise<FindUserByEmailRepository.Ouput>
+}
+
+export namespace FindUserByEmailRepository {
+    export type Input = {
+        email: string
+    }
+    export type Ouput = {
+        id: string
+        password: string
+        permissions: string[]
+    } | undefined
+}
