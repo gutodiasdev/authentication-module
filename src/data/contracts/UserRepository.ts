@@ -1,17 +1,16 @@
-export interface CreateUserRepository {
-    createUser(input: CreateUserRepository.Input): Promise<CreateUserRepository.Ouput>
+export interface SaveUserRepository {
+    saveUser(input: SaveUserRepository.Input): Promise<SaveUserRepository.Ouput>
 }
 
-export namespace CreateUserRepository {
+export namespace SaveUserRepository {
     export type Input = {
+        id: string
         email: string
         hashedPassword: string
         agreeWithPolicies: boolean
         permissions?: string[]
     }
-    export type Ouput = {
-        id: string
-    }
+    export type Ouput = void
 }
 
 export interface CheckUserByEmailRepository {
