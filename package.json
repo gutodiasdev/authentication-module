@@ -6,6 +6,7 @@
   "devDependencies": {
     "@swc/core": "^1.3.72",
     "@swc/jest": "^0.2.27",
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.5.3",
     "@types/node": "^20.4.5",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
@@ -23,5 +24,8 @@
     "test:coverage": "yarn test --coverage",
     "test:watch": "yarn test --watch",
     "prepare": "husky install"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0"
   }
 }
