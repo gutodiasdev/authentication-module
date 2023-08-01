@@ -6,7 +6,7 @@ export class User {
     email: string
     password: string
     agreeWithPolicies: boolean
-    permissions?: string[]
+    permissions: string[]
     HASH_SALT = 10
 
     constructor(input: {
@@ -14,7 +14,7 @@ export class User {
         email: string,
         password: string,
         agreeWithPolicies: boolean,
-        permissions?: string[]
+        permissions: string[]
     }) {
         this.id = input.id
         this.email = input.email
