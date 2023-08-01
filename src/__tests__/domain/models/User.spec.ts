@@ -1,4 +1,4 @@
-import { User } from "../../../domain/models"
+import { User } from '../../../domain/models'
 
 describe('User', function () {
     let sut: User
@@ -6,7 +6,8 @@ describe('User', function () {
         id: 'any_id',
         email: 'any_email',
         password: 'any_password',
-        agreeWithPolicies: true
+        agreeWithPolicies: true,
+        permissions: ['any_permission']
     }
 
     beforeEach(() => {
@@ -21,10 +22,11 @@ describe('User', function () {
     })
 
     test('it should create an User using static creation', function () {
-        const sut = User.create({ email: 'any_email', password: 'any_password', agreeWithPolicies: true })
+        const sut = User.create({ email: 'any_email', password: 'any_password', agreeWithPolicies: true, permissions: ['any_permission'] })
         expect(sut.id).toBeDefined()
         expect(sut.email).toBeDefined()
         expect(sut.password).toBeDefined()
         expect(sut.agreeWithPolicies).toBeDefined()
+        expect(sut.permissions).toEqual(['read.info', 'update.info', 'delete.info', 'any_permission'])
     })
 })
