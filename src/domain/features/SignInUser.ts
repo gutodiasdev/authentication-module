@@ -8,6 +8,7 @@ export namespace SignInUser {
         password: string
     }
     export type Output = {
+        id: string
         token: string
         refreshToken: string
         permissions: string[]
