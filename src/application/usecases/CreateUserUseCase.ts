@@ -34,7 +34,7 @@ export class CreateUserUseCase implements CreateUSer {
             const token = sign({ userId: user.id, permissions: user.permissions }, 'TOKEN_SECRET', { expiresIn: '15m' })
             const refreshToken = randomUUID()
             await this.refreshTokenRepository.createRefreshToken({ userId: user.id, token: refreshToken })
-            
+
             return {
                 token,
                 refreshToken,
