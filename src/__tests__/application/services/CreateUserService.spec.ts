@@ -2,10 +2,12 @@ import { MockProxy, mock } from 'jest-mock-extended'
 import { CreateUserService } from '../../../application/services'
 import { CheckUserByEmailRepository, CreateRefreshTokenRepository, SaveUserRepository } from '../../../data/contracts'
 import { CreateUserFailed, UserAlreadyExistsError } from '../../../domain/error'
+import { TokenIssuer } from '../../../domain/features'
 
 describe('CreateUserService', function () {
     let userRepository: MockProxy<SaveUserRepository & CheckUserByEmailRepository>
     let refreshTokenRepository: MockProxy<CreateRefreshTokenRepository>
+    let tokenIssuer: MockProxy<TokenIssuer>
     let sut: CreateUserService
     const input = {
         email: 'any_email',
@@ -17,8 +19,10 @@ describe('CreateUserService', function () {
     beforeEach(() => {
         userRepository = mock()
         refreshTokenRepository = mock()
-        sut = new CreateUserService(userRepository, refreshTokenRepository)
+        tokenIssuer = mock()
+        sut = new CreateUserService(userRepository, refreshTokenRepository, tokenIssuer)
         userRepository.checkByEmail.mockResolvedValue(undefined)
+        tokenIssuer.generateToken.mockReturnValue({ token: '' })
     })
 
     test('it should return token, refreshToken and permissions when CreateUserService is called', async function () {
