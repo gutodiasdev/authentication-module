@@ -1,18 +1,18 @@
 import { randomUUID } from 'crypto'
-import { sign } from 'jsonwebtoken'
 import {
     CheckUserByEmailRepository,
     CreateRefreshTokenRepository,
     SaveUserRepository
 } from '../../data/contracts'
 import { CreateUserFailed, UserAlreadyExistsError } from '../../domain/error'
-import { CreateUSer, CreateUser } from '../../domain/features'
+import { CreateUSer, CreateUser, TokenIssuer } from '../../domain/features'
 import { User } from '../../domain/models'
 
 export class CreateUserService implements CreateUSer {
     constructor(
         private readonly userRepository: SaveUserRepository & CheckUserByEmailRepository,
-        private readonly refreshTokenRepository: CreateRefreshTokenRepository
+        private readonly refreshTokenRepository: CreateRefreshTokenRepository,
+        private readonly tokenIssuerService: TokenIssuer
     ) { }
 
     async execute(input: CreateUser.Input): Promise<CreateUser.Ouput> {
@@ -31,12 +31,12 @@ export class CreateUserService implements CreateUSer {
                 agreeWithPolicies: user.agreeWithPolicies,
                 permissions: input.permissions
             })
-            const token = sign({ userId: user.id, permissions: user.permissions }, 'TOKEN_SECRET', { expiresIn: '15m' })
+            const tokenIssuer = this.tokenIssuerService.generateToken({ id: user.id, permissions: user.permissions })
             const refreshToken = randomUUID()
             await this.refreshTokenRepository.createRefreshToken({ userId: user.id, token: refreshToken })
 
             return {
-                token,
+                token: tokenIssuer.token,
                 refreshToken,
                 permissions: user.permissions
             }
