@@ -24,6 +24,6 @@ export namespace TokenIssuerVerifier {
         iat: string
         id: string
         permissions: string[]
-    }
+    } | undefined
 }
 
