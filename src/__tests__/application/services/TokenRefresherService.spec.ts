@@ -1,40 +1,14 @@
 import { MockProxy, mock } from 'jest-mock-extended'
-import { FindRefreshTokenRepository } from '../../../data/contracts'
-import { InvalidRefreshTokenError } from '../../../domain/error'
-import { DateHandler, TokenIssuer, TokenRefresher } from '../../../domain/features'
-
-export class TokenRefresherService implements TokenRefresher {
-    constructor(
-        private readonly tokenIssuerService: TokenIssuer,
-        private readonly refreshTokenRepository: FindRefreshTokenRepository,
-        private readonly dateService: DateHandler
-    ) {}
-    
-    async execute(input: TokenRefresher.Input): Promise<TokenRefresher.Output> {
-        const refreshToken = await this.refreshTokenRepository.findToken({ token: input.refreshToken })
-        if(!refreshToken) throw new InvalidRefreshTokenError()
-        const isAfter = this.dateService.isAfter({ fromDate: refreshToken.expirationDate, toDate: this.dateService.getNow()})
-        if (!isAfter) throw new RefreshTokenIsExpiredError()
-        const tokenIssuer = this.tokenIssuerService.generateToken({ id: input.id, permissions: input.persmissions })
-        return {
-            token: tokenIssuer.token,
-            refreshToken: ''
-        }
-    }
-}
-
-export class RefreshTokenIsExpiredError extends Error {
-    constructor() {
-        super('RefreshToken expirou!')
-        this.name = 'RefreshTokenIsExpiredError'
-    }
-}
+import { TokenRefresherService } from '../../../application/services'
+import { FindRefreshTokenRepository, UpdateRefreshTokenRepository } from '../../../data/contracts'
+import { InvalidRefreshTokenError, RefreshTokenIsExpiredError } from '../../../domain/error'
+import { DateHandler, TokenIssuer } from '../../../domain/features'
 
 describe('TokenRefresherService', function () {
     let sut: TokenRefresherService
     let tokenIssuer: MockProxy<TokenIssuer>
     let dateService: MockProxy<DateHandler>
-    let refreshTokenRepository: MockProxy<FindRefreshTokenRepository>
+    let refreshTokenRepository: MockProxy<FindRefreshTokenRepository & UpdateRefreshTokenRepository>
     const input = { refreshToken: '', id: '', persmissions: [''] }
 
     beforeEach(() => {
@@ -49,7 +23,8 @@ describe('TokenRefresherService', function () {
    
     test('it should returns token and refreshToken when TokenRefresherService is executed', async function () {
         const  result = await sut.execute(input)
-        expect(result).toEqual({ token: '', refreshToken: '' })
+        expect(result.token).toBeDefined()
+        expect(result.refreshToken).toBeDefined()
     })
 
     test('it should throw InvalidRefreshTokenError when findToken method returns undefined', async function () {
@@ -57,7 +32,7 @@ describe('TokenRefresherService', function () {
         await expect(() => sut.execute(input)).rejects.toThrow(InvalidRefreshTokenError)
     })
     
-    test('it should throw InvalidRefreshTokenError when findToken method returns undefined', async function () {
+    test('it should throw RefreshTokenIsExpiredError when isAfter method returns false', async function () {
         dateService.isAfter.mockReturnValue(false)
         await expect(() => sut.execute(input)).rejects.toThrow(RefreshTokenIsExpiredError)
     })
