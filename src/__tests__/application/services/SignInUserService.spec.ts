@@ -1,5 +1,5 @@
 import { MockProxy, mock } from 'jest-mock-extended';
-import { SignInUserService } from '../../../application/usecases';
+import { SignInUserService } from '../../../application/services';
 import { FindUserByEmailRepository } from '../../../data/contracts';
 import { EmailOrPasswordAreWrong, TokenExpiredError } from '../../../domain/error';
 import { TokenIssuer } from '../../../domain/features';

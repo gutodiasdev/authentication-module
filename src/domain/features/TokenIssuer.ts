@@ -1,9 +1,9 @@
 export interface TokenIssuer {
-    generateToken(input: TokenIssuer.Input): Promise<TokenIssuer.Ouput>
-    verify(token: string): Promise<boolean>
+    generateToken(input: TokenIssuerGenerator.Input): Promise<TokenIssuerGenerator.Ouput>
+    verify(token: TokenIssuerVerifier.Input): TokenIssuerVerifier.Ouput
 }
 
-export namespace TokenIssuer {
+export namespace TokenIssuerGenerator {
     export type Input = {
         id: string
         permissions: string[]
@@ -13,3 +13,17 @@ export namespace TokenIssuer {
         token: string
     }
 }
+
+export namespace TokenIssuerVerifier {
+    export type Input = {
+        token: string
+    }
+
+    export type Ouput = {
+        exp: string
+        iat: string
+        id: string
+        permissions: string[]
+    }
+}
+

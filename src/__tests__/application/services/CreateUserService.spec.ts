@@ -1,5 +1,5 @@
 import { MockProxy, mock } from 'jest-mock-extended'
-import { CreateUserService } from '../../../application/usecases'
+import { CreateUserService } from '../../../application/services'
 import { CheckUserByEmailRepository, CreateRefreshTokenRepository, SaveUserRepository } from '../../../data/contracts'
 import { CreateUserFailed, UserAlreadyExistsError } from '../../../domain/error'
 

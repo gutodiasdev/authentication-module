@@ -9,7 +9,7 @@ export class SignInUserService implements SignInUser {
     ) {}
 
     async execute(input: SignInUser.Input): Promise<SignInUser.Output> {
-        const tokenIsValid = await this.tokenIssuer.verify(input.token)
+        const tokenIsValid = await this.tokenIssuer.verify({ token: input.token })
         if(!tokenIsValid) throw new TokenExpiredError()
         const user = await this.userRepository.findByEmail({ email: input.email })
         if(!user) throw new EmailOrPasswordAreWrong()
