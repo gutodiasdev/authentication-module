@@ -15,8 +15,8 @@ describe('SignInUserService', function () {
         tokenIssuer = mock()
         sut = new SignInUserService(userRepository, tokenIssuer)
         userRepository.findByEmail.mockResolvedValue({ id: '', password: '', permissions: [''] })
-        tokenIssuer.verify.mockResolvedValue(true)
-        tokenIssuer.generateToken.mockResolvedValue({ token: '' })
+        tokenIssuer.verify.mockReturnValue({ exp: '', iat: '', id: '', permissions: [''] })
+        tokenIssuer.generateToken.mockReturnValue({ token: '' })
     })
 
     test('it should return user id, token, refresh token and permissions', async function () {
@@ -32,7 +32,7 @@ describe('SignInUserService', function () {
     })
 
     test('it should throw TokenExpiredError when verify method from TokenIssuer returns false', async function () {
-        tokenIssuer.verify.mockResolvedValueOnce(false)
+        tokenIssuer.verify.mockReturnValueOnce(undefined)
         await expect(() => sut.execute(input)).rejects.toThrow(TokenExpiredError)
     })
 })
