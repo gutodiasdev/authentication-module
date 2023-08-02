@@ -9,7 +9,7 @@ import { CreateUserFailed, UserAlreadyExistsError } from '../../domain/error'
 import { CreateUSer, CreateUser } from '../../domain/features'
 import { User } from '../../domain/models'
 
-export class CreateUserUseCase implements CreateUSer {
+export class CreateUserService implements CreateUSer {
     constructor(
         private readonly userRepository: SaveUserRepository & CheckUserByEmailRepository,
         private readonly refreshTokenRepository: CreateRefreshTokenRepository

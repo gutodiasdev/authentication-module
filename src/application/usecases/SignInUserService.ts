@@ -2,7 +2,7 @@ import { FindUserByEmailRepository } from '../../data/contracts'
 import { EmailOrPasswordAreWrong, TokenExpiredError } from '../../domain/error'
 import { SignInUser, TokenIssuer } from '../../domain/features'
 
-export class SignInUserUseCase implements SignInUser {
+export class SignInUserService implements SignInUser {
     constructor(
         private readonly userRepository: FindUserByEmailRepository,
         private readonly tokenIssuer: TokenIssuer

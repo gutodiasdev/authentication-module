@@ -1,19 +1,19 @@
 import { MockProxy, mock } from 'jest-mock-extended';
-import { SignInUserUseCase } from '../../../application/usecases';
+import { SignInUserService } from '../../../application/usecases';
 import { FindUserByEmailRepository } from '../../../data/contracts';
 import { EmailOrPasswordAreWrong, TokenExpiredError } from '../../../domain/error';
 import { TokenIssuer } from '../../../domain/features';
 
-describe('SignInUserUseCase', function () {
+describe('SignInUserService', function () {
     let tokenIssuer: MockProxy<TokenIssuer>
     let userRepository: MockProxy<FindUserByEmailRepository>
-    let sut: SignInUserUseCase
+    let sut: SignInUserService
     const input = { email: '', password: '', token: ''}
 
     beforeEach(() => {
         userRepository = mock()
         tokenIssuer = mock()
-        sut = new SignInUserUseCase(userRepository, tokenIssuer)
+        sut = new SignInUserService(userRepository, tokenIssuer)
         userRepository.findByEmail.mockResolvedValue({ id: '', password: '', permissions: [''] })
         tokenIssuer.verify.mockResolvedValue(true)
         tokenIssuer.generateToken.mockResolvedValue({ token: '' })
