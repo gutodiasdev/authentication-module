@@ -23,5 +23,5 @@ export namespace FindRefreshTokenRepository {
     export type Output = {
         token: string
         expirationDate: string
-    }
+    } | undefined
 }

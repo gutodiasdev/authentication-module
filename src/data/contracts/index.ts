@@ -1,2 +1,3 @@
-export * from './RefreshToken';
+export * from './RefreshTokenRepository';
 export * from './UserRepository';
+
