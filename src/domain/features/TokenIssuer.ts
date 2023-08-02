@@ -1,5 +1,5 @@
 export interface TokenIssuer {
-    generateToken(input: TokenIssuerGenerator.Input): Promise<TokenIssuerGenerator.Ouput>
+    generateToken(input: TokenIssuerGenerator.Input): TokenIssuerGenerator.Ouput
     verify(token: TokenIssuerVerifier.Input): TokenIssuerVerifier.Ouput
 }
 

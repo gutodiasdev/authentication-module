@@ -4,7 +4,7 @@ import { TokenIssuer, TokenIssuerGenerator, TokenIssuerVerifier } from '../../do
 export class TokenIssuerService implements TokenIssuer {
     EXPIRES_IN = '5m'
 
-    async generateToken(input: TokenIssuerGenerator.Input): Promise<TokenIssuerGenerator.Ouput> {
+    generateToken(input: TokenIssuerGenerator.Input): TokenIssuerGenerator.Ouput {
         const token = sign({ id: input.id, permissions: input.permissions }, 'TOKEN_SECRET', { expiresIn: this.EXPIRES_IN })
 
         return {
